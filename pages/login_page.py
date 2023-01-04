@@ -1,6 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+import allure
 
 
 class HeadspaceLoginPage:
@@ -27,25 +28,31 @@ class HeadspaceLoginPage:
     def __init__(self, driver):
         self.driver = driver
 
+    @allure.step("Open Login Page")
     def open_main_url(self):
         self.driver.get(self.URL)
 
+    @allure.step("Login with credentials")
     def do_login(self, user_email, password):
         self.driver.find_element(*self.EMAIL_FIELD).send_keys(user_email)
         self.driver.find_element(*self.PASSWORD_FIELD).send_keys(password)
         self.driver.find_element(*self.LOGIN_BUTTON).click()
 
+    @allure.step("Click signup link")
     def click_signup_link(self):
         self.driver.find_element(*self.SIGNUP_LINK).click()
 
+    @allure.step("Click forgot password link")
     def click_forgot_password_link(self):
         self.driver.find_element(self.FORGOT_PASSWORD_LINK).click()
 
+    @allure.step("Get invalid password error message")
     def get_wrong_password_error_message(self):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.WRONG_PASSWORD_VALIDATION_MESSAGE))
         message = self.driver.find_element(*self.WRONG_PASSWORD_VALIDATION_MESSAGE).text
         return message
 
+    @allure.step("Get invalid email error message")
     def get_wrong_email_error_message(self):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.WRONG_EMAIL_VALIDATION_MESSAGE))
         message = self.driver.find_element(*self.WRONG_EMAIL_VALIDATION_MESSAGE).text

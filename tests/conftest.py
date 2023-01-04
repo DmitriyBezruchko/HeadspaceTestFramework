@@ -8,9 +8,9 @@ import selenium.webdriver
 from selenium.webdriver.chrome.service import Service
 
 
+
 @pytest.fixture
 def config(scope='session'):
-
     with open('config.json') as config_file:
         config = json.load(config_file)
 
@@ -22,9 +22,10 @@ def config(scope='session'):
     return config
 
 
+@pytest.mark.parametrize("x", ["selenium.webdriver.Safari()", "selenium.webdriver.Chrome()"])
 @pytest.fixture
 def driver_setup(config):
-    # Initialize the WebDriver instance
+    #Initialize the WebDriver instance
     if config['browser'] == 'Firefox':
         driver = selenium.webdriver.Firefox()
     elif config['browser'] == 'Chrome':
@@ -37,7 +38,8 @@ def driver_setup(config):
     else:
         raise Exception(f'Browser "{config["browser"]}" is not supported')
 
-    # Make its calls wait up to 10 seconds for elements to appear
+    #Make its calls wait up to 10 seconds for elements to appear
+    #driver = x
     driver.implicitly_wait(config['implicit_wait'])
 
     # Return the WebDriver instance for the setup

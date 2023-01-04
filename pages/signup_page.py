@@ -15,6 +15,7 @@ class SignUpPage:
     def __init__(self, driver):
         self.driver = driver
 
+    @allure.step("Open SignUp Page")
     def open_main_url(self):
         self.driver.get(self.URL)
 

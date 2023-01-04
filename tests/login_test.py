@@ -1,3 +1,4 @@
+import allure
 import pytest
 import selenium.webdriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,6 +11,14 @@ from pages.login_page import HeadspaceLoginPage
 '''
 
 
+@allure.severity(allure.severity_level.BLOCKER)
+@allure.epic("Security")
+@allure.feature("Login")
+@pytest.mark.security
+
+
+@allure.description("Valid Login")
+@allure.title("Login with valid credentials test")
 def test_proper_login(driver_setup):
     login_page = HeadspaceLoginPage(driver_setup)
     login_page.open_main_url()
@@ -17,7 +26,8 @@ def test_proper_login(driver_setup):
     WebDriverWait(driver_setup, 10).until(EC.title_is('Meditate'))
     assert "Meditate" in driver_setup.title
 
-
+@allure.description("Login Invalid Password")
+@allure.title("Login with invalid password test")
 def test_wrong_password_login(driver_setup):
     login_page = HeadspaceLoginPage(driver_setup)
     login_page.open_main_url()
@@ -26,7 +36,8 @@ def test_wrong_password_login(driver_setup):
 
     assert "Either your email or password was incorrect. Please try again." in login_page.get_wrong_password_error_message()
 
-
+@allure.description("Login Invalid Email")
+@allure.title("Login with invalid email test")
 def test_wrong_email_login(driver_setup):
     login_page = HeadspaceLoginPage(driver_setup)
     login_page.open_main_url()
